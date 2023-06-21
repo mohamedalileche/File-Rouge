@@ -1,5 +1,5 @@
 export const verifyAccessToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers['Authorization'];
   const accessToken = authHeader && authHeader.split(' ')[1];
 
   if (!accessToken) {

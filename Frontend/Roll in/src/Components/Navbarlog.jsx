@@ -28,25 +28,17 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-
         <div className="md:hidden" id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">    
             <Link to="/Signup"
               className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Sign up
             </Link>
-
-
-
           </div>
         </div>
       </nav>
-
-
     </div>
-
  ); 
   };
 export default Navbar;

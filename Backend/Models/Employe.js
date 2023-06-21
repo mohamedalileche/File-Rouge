@@ -23,8 +23,8 @@ const EmployeSchema = new Schema({
     },
     Role: {
         type: String,
-        enum: ["Admin", "Employe"],
-        default: "Employe",
+        enum: ["Manager", "Salarié"],
+        default: "Salarié",
         required: true,
     },
     Horaires: {
@@ -34,9 +34,14 @@ const EmployeSchema = new Schema({
         type: String,
         required: true
     },
+    EnLigne: {
+        type: Boolean,
+        default: false
+    },
     Entreprise: {
         type: Schema.Types.ObjectId,
-        ref: 'Entreprise' // Référence au modèle de l'entreprise
+        ref: 'Entreprise', // Référence au modèle de l'entreprise,
+        required: true
     }
 });
 

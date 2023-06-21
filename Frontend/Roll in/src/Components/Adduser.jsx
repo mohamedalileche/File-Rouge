@@ -1,28 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { createEmployee } from "../Api/Apis";
+import useUserId from "../Hooks/useUserId";
 
 
 
 
 const Adduser = () => {
-
+    const {userId} = useUserId();
+    useEffect(()=>{
+        
+    },[userId]);
     const [Nom, setNom] = useState("");
     const [Prenom, setPrenom] = useState("");
     const [Telephone, setTelephone] = useState("");
     const [Email, setEmail] = useState("");
-    const [Role, setRole] = useState("");
+    const [Role, setRole] = useState("Manager");
     const [Horaires, setHoraires] = useState("");
     const [Password, setPassword] = useState("");
-
-    const navigate = useNavigate()
+    
     const queryClient = useQueryClient();
     
     const createEmployeeMutation = useMutation(createEmployee, {
         onSuccess: () => {
             queryClient.invalidateQueries("Employe");
-            navigate('/')
+            
         },
     });
 
@@ -31,7 +34,7 @@ const Adduser = () => {
         
         e.preventDefault();
 
-        createEmployeeMutation.mutate({Nom,Prenom,Telephone,Email,Role,Horaires,Password});
+        createEmployeeMutation.mutate({Nom,Prenom,Telephone,Email,Role,Horaires,Password, Entreprise:userId});
         setNom("");
         setPrenom("");
         setTelephone("");
@@ -51,12 +54,13 @@ const Adduser = () => {
                                 htmlFor="name"
                                 className="block text-sm  font-medium text-gray-700 undefined"
                             >
-                                Nom
+                                Nom:
                             </label>
                             <div className="flex flex-col items-start">
                                 <input onChange={(e) => setNom(e.target.value)}
                                     type="text"
                                     name="name"
+                                    value={Nom}
                                     className="block w-full mt-1 h-[33px] border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>
@@ -66,12 +70,13 @@ const Adduser = () => {
                                 htmlFor="Prénom"
                                 className="block text-sm font-medium text-gray-700 undefined"
                             >
-                                Prénom
+                                Prénom:
                             </label>
                             <div className="flex flex-col items-start">
                                 <input onChange={(e) => setPrenom(e.target.value)}
                                     type="text"
                                     name="Prénom"
+                                    value={Prenom}
                                     className="block w-full mt-1 h-[33px] border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>
@@ -81,12 +86,13 @@ const Adduser = () => {
                                 htmlFor="Prénom"
                                 className="block text-sm font-medium text-gray-700 undefined"
                             >
-                                Telephone
+                                Telephone:
                             </label>
                             <div className="flex flex-col items-start">
                                 <input onChange={(e) => setTelephone(e.target.value)}
                                     type="text"
                                     name="Telephone"
+                                    value={Telephone}
                                     className="block w-full mt-1 h-[33px] border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>
@@ -96,12 +102,13 @@ const Adduser = () => {
                                 htmlFor="Prénom"
                                 className="block text-sm font-medium text-gray-700 undefined"
                             >
-                                Email
+                                Email:
                             </label>
                             <div className="flex flex-col items-start">
                                 <input onChange={(e) => setEmail(e.target.value)}
                                     type="email"
                                     name="email"
+                                    value={Email}
                                     className="block w-full mt-1 h-[33px] border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>
@@ -111,14 +118,18 @@ const Adduser = () => {
                                 htmlFor="Prénom"
                                 className="block text-sm font-medium text-gray-700 undefined"
                             >
-                                Role
+                                Role:
                             </label>
                             <div className="flex flex-col items-start">
-                                <input onChange={(e) => setRole(e.target.value)}
-                                    type="text"
-                                    name="Role"
-                                    className="block w-full mt-1 h-[33px] border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                />
+                                <select
+                                id="role"
+                                value={Role}
+                                onChange={(e) => setRole(e.target.value)}
+                                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                >
+                                <option value="Manager">Manager</option>
+                                <option value="Salarié">Salarié</option>
+                                </select>
                             </div>
                         </div>
                         <div className="mt-4">
@@ -126,12 +137,13 @@ const Adduser = () => {
                                 htmlFor="password"
                                 className="block text-sm font-medium text-gray-700 undefined"
                             >
-                                Password
+                                Mots de passe:
                             </label>
                             <div className="flex flex-col items-start">
                                 <input onChange={(e) => setPassword(e.target.value)}
                                     type="password"
                                     name="password"
+                                    value={Password}
                                     className="block w-full mt-1 h-[33px] border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 />
                             </div>

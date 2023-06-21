@@ -2,8 +2,8 @@ import validator from "validator"
 import bcrypt from "bcrypt"
 import Entreprise from "../Models/Entreprise.js"
 import Employee from '../Models/Employe.js';
-import { createAccessToken, createRefreshToken } from "../Utils/Token.js"
-import { RefreshToken } from "../Models/RefreshToken.js"
+import { createAccessToken } from "../Utils/Token.js"
+import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 import Employe from "../Models/Employe.js";
 
@@ -29,6 +29,7 @@ export const register = async (req, res) => {
 //////////// Pour se connecter
 export const login = async (req, res) => {
     const {Email, Password,Badge} = req.body 
+    console.log(req.body);
     try {    
         if (!Email || !Password){
         throw Error('tout les champs sont requis !')
@@ -43,68 +44,92 @@ export const login = async (req, res) => {
       user = await Employe.findOne({Email});
     }
     
-        if (!user){
-            throw Error('user not found!')
-        }
+    if (!user){
+      throw Error('user not found!')
+    }
         const passwordCompare = await bcrypt.compare(Password, user.Password)
         if (!passwordCompare) {
+          console.log(passwordCompare);
            return res.status(400).json("password invalid")
         }
-        const accessToken = createAccessToken(user._id)
-        const refreshToken = createRefreshToken(user._id)
 
-        await RefreshToken.create({
-          userId: user._id,
-          refreshToken,
-        })
-        res.cookie(
-          "refreshToken",
-          { refreshToken },
-          {
-            httpOnly: true,
-            secure: true,
-            sameSite: "None",
-            maxAge: 60 * 60 * 24 * 1000 * 7, //7days
-          }
-        )
+        user.EnLigne = true;
+        await  user.save()
+        console.log(user);
+        const accessToken = createAccessToken(user._id, user.Role)
+
         res.status(200).json({accessToken})
     } catch (error) {
-        console.log
+        console.log(error)
         res.status(500).json({ message: error.message });
-
     }
 }
-
-export const Logout = async (req, res) => {
-    try {
-      res.clearCookie("authToken")
-      res.status(200).json("logout success")
-    } catch (error) {
-      res.status(400).json(error)
+export const logout = async (req, res) => {
+  const {userId, Badge} = req.body;
+  
+  try {
+    let user;
+    if(Badge === "Entreprise") {
+      user = await Entreprise.findById(userId);
+    }else{
+      user = await Employe.findById(userId);
     }
-  }
+    if (!user){
+      throw Error('user not found!')
+    }
+      user.EnLigne = false;
+      await user.save();
+      
+      res.status(200).json({ message:  "Déconnecté avec succès" });
+      } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+}
+};
 
 
 
 
-// ...
+// ... Ajouter Un employe Depuis une ENTREPRISE 
 
 export const createEmployee = async (req, res) => {
-  const  entrepriseId  = res.locals.entrepriseId;
+  const  entrepriseId  = req.params.id;
   console.log(entrepriseId);
   const { Nom, Prenom, Telephone, Email, Role, Horaires, Password } = req.body;
   try {
-    const employe =  await Employee.create({Nom, Prenom, Telephone, Email, Role, Horaires, Password, Entreprise: entrepriseId});
+    const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(Password, salt)
+    const employe =  await Employee.create({Nom, Prenom, Telephone, Email, Role, Horaires, Password:hashedPassword, Entreprise: entrepriseId});
+        const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'mouhalileche.ma@gmail.com',
+        pass: 'bjzrwduxaegazzmt',
+      },
+    });
+    const mailOptions = {
+      from: 'mouhalileche.ma@gmail.com',
+      to: employe.Email,
+      subject: 'Pointage',
+      text: `Cher ${employe.Nom}${employe.Prenom},\n\nBienvenue dans notre société! Votre compte a été créé avec succès.\n\nVoici vos identifiants de connexion :\nEmail: ${employe.Email}\nMots de passe: ${Password}\n\nVeuillez visiter notre site Web pour vous connecter.\n\nCordialement,\nVotre Entreprise de pointage`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
     res.status(201).json(employe);
   } catch (error) {
     res.status(500).json({ message: error.message });
   } 
 };
-
+//Afficher les Employes D'une entreprise
 export const getEmployees = async (req, res) => {
-  const entrepriseId = res.locals.entrepriseId;
-  console.log(entrepriseId);
-  
+  const entrepriseId = req.params.id;
+  // console.log(entrepriseId);
   try {
     const employees = await Employee.find({ Entreprise: entrepriseId });
     res.status(200).json(employees);

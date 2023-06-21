@@ -17,15 +17,15 @@ const client = new QueryClient();
 
 const router = createBrowserRouter([
   {
+    path: "/Home",
+    element: <Home />,
+  },
+  {
     path: "/Signup",
     element: <Signup/>
   },
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/Login",
     element: <Login/>
   },
   {
