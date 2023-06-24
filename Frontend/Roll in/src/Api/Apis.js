@@ -33,3 +33,10 @@ export const logout = async (body) => {
    
     return res.data;
 }
+////////////////Pointage
+export const createPointage = async (employeId, data) => {
+    console.log(data);
+    const res = await api.post(`/entreprises/employes/${employeId}/createPointage`,data)
+    console.log(employeId);
+    return res.data;
+}

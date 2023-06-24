@@ -64,6 +64,7 @@ export const login = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+//////// Deconnexion
 export const logout = async (req, res) => {
   const {userId, Badge} = req.body;
   
@@ -111,7 +112,7 @@ export const createEmployee = async (req, res) => {
       from: 'mouhalileche.ma@gmail.com',
       to: employe.Email,
       subject: 'Pointage',
-      text: `Cher ${employe.Nom}${employe.Prenom},\n\nBienvenue dans notre société! Votre compte a été créé avec succès.\n\nVoici vos identifiants de connexion :\nEmail: ${employe.Email}\nMots de passe: ${Password}\n\nVeuillez visiter notre site Web pour vous connecter.\n\nCordialement,\nVotre Entreprise de pointage`,
+      text: `Cher ${employe.Nom} ${employe.Prenom},\n\nBienvenue dans notre société! Votre compte a été créé avec succès.\n\nVoici vos identifiants de connexion :\nEmail: ${employe.Email}\nMots de passe: ${Password}\n\nVeuillez visiter notre site Web pour vous connecter.\n\nCordialement,\nVotre Entreprise de pointage`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

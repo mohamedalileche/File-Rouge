@@ -27,9 +27,6 @@ const EmployeSchema = new Schema({
         default: "Salarié",
         required: true,
     },
-    Horaires: {
-        type: String
-    },
     Password: {
         type: String,
         required: true

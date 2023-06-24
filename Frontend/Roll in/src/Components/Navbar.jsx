@@ -1,7 +1,6 @@
 import React from "react";
 import Logo from "../assets/Logo.png"
 import { useNavigate } from "react-router-dom";
-
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "../Api/Apis";
 import useUserId from "../Hooks/useUserId";
@@ -14,8 +13,6 @@ const Navbar = () => {
         navigate("/")
     },
 });
-
-
 const handlelogoutsubmit = (e) => {
     e.preventDefault();
     const Badge = userRole === undefined? 'Entreprise' : 'Employe'

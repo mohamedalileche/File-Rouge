@@ -3,16 +3,15 @@ import { createPointage, getPointage, updatePointage, deletePointage, getProject
 
 
 
-const app = express()
-app.use(express.json());
+export const EmployeRouter = express.Router()
 
 
 
 ///////////////Pointage/////////////////////
-app.get('/pointages/:id', getPointage);
-app.post('/pointages', createPointage);
-app.put('/pointages/:id', updatePointage);
-app.delete('/pointages/:id',deletePointage);  
+// app.get('/pointages/:id', getPointage);
+EmployeRouter.post('/employes/:id/pointages', createPointage);
+// app.put('/pointages/:id', updatePointage);
+// app.delete('/pointages/:id',deletePointage);  
 
 
 ///////////////Project/////////////////////

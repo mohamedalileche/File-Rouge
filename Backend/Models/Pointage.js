@@ -8,17 +8,12 @@ const PointageSchema = new Schema({
     ref: 'Employe',
     required: true
   },
-  date: {
-    type: Date,
-    default: Date.now,
-    required: true
-  },
   startTime: {
-    type: Date,
+    type: Date.now,
     required: true
   },
   endTime: {
-    type: Date,
+    type: Date.now,
   }
 },
 {timestamps: true}
