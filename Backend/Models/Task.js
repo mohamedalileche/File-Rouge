@@ -12,11 +12,20 @@ const {Schema} = mongoose;
         type:String, 
         default :""
     },
+    Employe: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employe',
+        required: true
+      },
+    Assigne: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employe',
+        required: true
+    },
     Project:{
         type:Schema.Types.ObjectId,
         ref:"Project"
     }
-    
 },
 {timestamps: true}
 );

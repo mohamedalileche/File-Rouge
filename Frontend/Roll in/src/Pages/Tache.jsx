@@ -1,19 +1,15 @@
 import React from "react";
-
-import Gtask from "../Components/Gtask";
 import Navbar from '../Components/Navbar/Navbar';
+import Card from "../Components/Card";
 
 
-
-function Home() {
+function Tache() {
   return (
     <div>
       <Navbar/>
-      <Gtask/>
-      
- 
+      <Card/>
     </div>
   );
 }
 
-export default Home;
+export default Tache;

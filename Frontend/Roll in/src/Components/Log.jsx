@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/Group.png"
+import Bg from "../assets/Q.jpg"
+
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../Api/Apis";
 import useUserId from "../Hooks/useUserId";
@@ -11,7 +14,8 @@ function Log() {
 
   const navigate = useNavigate();
   const {userRole} = useUserId()
-  console.log({userRole});
+  // console.log({userRole});
+ 
   const loginMutation = useMutation(login, {
     onSuccess: (message) => {
       localStorage.setItem("token", message.accessToken);
@@ -20,7 +24,7 @@ function Log() {
       } else if ( Badge === "Employe" && userRole === "Salarié") {
         navigate("/HomeE");
       } else if ( Badge === "Employe" && userRole === "Manager") {
-        navigate("/Home")
+        navigate("/HomeM")
       }
     },
     onError: (err) => {
@@ -36,13 +40,15 @@ function Log() {
 
   return (
     <div>
-      <div className="flex flex-col items-center  min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
+      
+      <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50" style={{ backgroundImage: `url(${Bg})`, backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '80%', }}>
         <div>
           <a href="/">
-            <h3 className="text-4xl font-bold text-purple-600">Pointage</h3>
+            <img src={Logo} alt="Logo" className="h-16 w-16 mx-auto mb-2" />
+            <h3 className="text-4xl font-bold text-[#00A9BA]">PunchClock</h3>
           </a>
         </div>
-        <div className="w-full px-10 py-20 mt-6  overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+        <div className="w-10/12 px-6 py-10 mt-6  overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg border-2 border-[#00A9BA]">
           <form onSubmit={handleLoginsubmit}>
             <div>
               <label
@@ -59,8 +65,8 @@ function Log() {
                   onChange={(e) => setBadge(e.target.value)}
                   className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 >
-                  <option value="Entreprise">Entreprise</option>
-                  <option value="Employe">Employé</option>
+                  <option className= " block text-sm font-medium " value="Entreprise">Entreprise</option>
+                  <option className= " block text-sm font-medium " value="Employe">Employé</option>
                 </select>
               </div>
             </div>
@@ -120,10 +126,10 @@ function Log() {
                 />
               </div>
             </div>
-            <div className="flex items-center justify-end mt-4">
+            <div className="flex items-center justify-center mt-4">
               <button
                 type="submit"
-                className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
+                className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-[#00A9BA] border border-transparent rounded-md active:bg-gray-900 false"
               >
                 Se Connecter
               </button>

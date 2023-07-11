@@ -9,11 +9,11 @@ const PointageSchema = new Schema({
     required: true
   },
   startTime: {
-    type: Date.now,
-    required: true
+    type: Date,
+    default : new Date()
   },
   endTime: {
-    type: Date.now,
+    type: Date
   }
 },
 {timestamps: true}

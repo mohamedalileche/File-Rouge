@@ -6,11 +6,12 @@ const useUserId = () =>{
  if(localStorage.token ){
     const decode = jwt_decode(localStorage.token);
  const userId = decode.userId;
- const userRole = decode.userRole
- return {userId, userRole};
+ const userRole = decode.userRole;
+ const Badge = decode.Badge;
+ return {userId, userRole,Badge};
  }else{
 
- return {userId:"", userRole:""};
+ return {userId:"", userRole:"", Badge:""};
  
 }
  

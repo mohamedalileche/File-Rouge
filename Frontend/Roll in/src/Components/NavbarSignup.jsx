@@ -18,7 +18,7 @@ const Navbar = () => {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline justify-end space-x-4">
-                  <Link to="/Login" className="flex items-center justify-self-end gap-x-1 py-2 px-4 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex">
+                  <Link to="/" className="flex items-center justify-self-end gap-x-1 py-2 px-4 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex">
                             Log In                 
                   </Link>
                 </div>
@@ -32,7 +32,7 @@ const Navbar = () => {
         <div className="md:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               
-            <Link to="/Login"
+            <Link to="/"
               className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Log In

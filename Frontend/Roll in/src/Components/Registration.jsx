@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { register } from "../Api/Apis";
+import Logo from "../assets/Group.png"
+import Bg from "../assets/Q.jpg"
+
 
 
 function Registration() {
@@ -22,10 +25,10 @@ const queryClient = useQueryClient();
 const registerMutation = useMutation(register, {
     onSuccess: () => {
         queryClient.invalidateQueries("Inscription");
-        navigate("/Login")
+        navigate("/")
     },
     onError: (error) => {
-        setErrorMessage("Verifiez vos"); // Définit le message d'erreur si l'e-mail est déjà utilisé
+        setErrorMessage("Verifiez vos identifiant"); // Définit le message d'erreur si l'e-mail est déjà utilisé
       },
 });
 
@@ -43,16 +46,14 @@ const handleRegistrationsubmit = (e) => {
 };
 
     return (
-        <div>
-            <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
+            <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50"style={{ backgroundImage: `url(${Bg})`, backgroundSize: 'cover', backgroundPosition: 'center', width: '100%', height: '80%', }}>
                 <div>
-                    <a href="/">
-                        <h3 className="text-4xl font-bold text-purple-600">
-                            Pointage
-                        </h3>
-                    </a>
+                <a href="/">
+                  <img src={Logo} alt="Logo" className="h-16 w-16 mx-auto mb-2" />
+                  <h3 className="text-4xl font-bold text-[#00A9BA]">PunchClock</h3>
+                 </a>
                 </div>
-                <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+                <div className="w-10/12 px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg border-2 border-[#00A9BA]">
                     <form onSubmit={handleRegistrationsubmit}>
                         <div className="text-red-500 mt-2">
                            <p>{errorMessage}</p>
@@ -133,14 +134,14 @@ const handleRegistrationsubmit = (e) => {
                             </div>
                         </div>
                         <div className="flex items-center justify-end mt-4">
-                            <Link to="/Login" 
+                            <Link to="/" 
                                 className="text-sm text-gray-600 underline hover:text-gray-900 cursor-[pointer]"
                             >
                                 Already registered?                               
                             </Link>
                             <button
                                 type="submit"
-                                className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
+                                className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-[#00A9BA] border border-transparent rounded-md active:bg-gray-900 false"
                             >
                                 Register
                             </button>
@@ -149,7 +150,6 @@ const handleRegistrationsubmit = (e) => {
                     </form>
                 </div>
             </div>
-        </div>
     );
 };
 

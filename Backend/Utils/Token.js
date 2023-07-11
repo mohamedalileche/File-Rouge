@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken"
 
 const { sign } = jwt
 
-export const createAccessToken = (userId,userRole) => {
-  const accessToken = sign({ userId, userRole }, process.env.ACCESS_TOKEN_SECRET, {
+export const createAccessToken = (userId,userRole,Badge) => {
+  const accessToken = sign({ userId, userRole, Badge }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "1d",
   })
   return accessToken

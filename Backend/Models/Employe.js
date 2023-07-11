@@ -39,7 +39,12 @@ const EmployeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Entreprise', // Référence au modèle de l'entreprise,
         required: true
-    }
+    },
+    Categories: {
+        type: String,
+
+    },
+
 });
 
 export default mongoose.model('Employe', EmployeSchema);

@@ -1,13 +1,13 @@
 import React from "react";
 import Log from "../Components/Log";
-import Nav from "../Components/Navbarlog"
+// import Nav from "../Components/Navbar-l/Navbar"
 
 
 
 function Login() {
   return (
     <div>
-        <Nav/>
+        {/* <Nav/> */}
         <Log/>
     </div>
   );

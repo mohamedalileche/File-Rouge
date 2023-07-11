@@ -1,10 +1,12 @@
 import Modal from 'react-modal';
 import React, { useState, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
-import Newuser from "../Components/Adduser"
-import { getEmployees } from '../Api/Apis';
+import { useQuery,useMutation } from "@tanstack/react-query";
+import Newuser from "./Adduser"
+import PointageE from "../Components/PointageE"
+import { deleteEmploye, getEmployees } from '../Api/Apis';
 import useUserId from '../Hooks/useUserId';
-
+import { Link } from 'react-router-dom';
+Modal.setAppElement('#root');
 const Gtask = () => {
   const [showAll, setShowAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,13 +21,22 @@ const Gtask = () => {
     setIsModalOpen(false);
   }
 
-  const { data } = useQuery({
+
+  const { data, refetch } = useQuery({
     queryKey: ["ff"],
     queryFn: async () => {
       const data = await getEmployees(userId)
       return data
     }
   });
+  const deleteEmployeMutation = useMutation(deleteEmploye, {
+    onSuccess: () => {
+      refetch()
+    },
+  });
+  const handleDeleteEmploye = (data) => {
+    deleteEmployeMutation.mutate({entrepriseId:userId,employeId:data});
+  };
 
   const handleClick = () => {
     setShowAll(!showAll);
@@ -39,12 +50,12 @@ const Gtask = () => {
   };
 
   const onlineEmployeeCount = data
-    ? data.filter((employee) => employee.EnLigne).length
+    ? data.filter((employe) => employe.EnLigne).length
     : 0;
 
   const employeeCount = data ? data.length : 0;
   const offlineEmployeeCount = data
-    ? data.filter((employee) => !employee.EnLigne).length
+    ? data.filter((employe) => !employe.EnLigne).length
     : 0;
 
   return (
@@ -70,7 +81,7 @@ const Gtask = () => {
             <button
               onClick={openModal}
               type="button"
-              className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-[#00C2CB] hover:bg-[#00A9BA] focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
               <svg
                 className="h-3.5 w-3.5 mr-2"
@@ -88,56 +99,100 @@ const Gtask = () => {
               Add new User
             </button>
             <Modal
-              className={"flex flex-col items-center gap-5 justify-center "}
+              className="mt-5 h-full flex flex-col items-center gap-8 justify-center "
               isOpen={isModalOpen}
               onRequestClose={closeModal}
             >
-              <Newuser />
-              <button
-                className="bg-red-500 px-4 py-2 ml-4 text-xs font-semibold rounded-md"
-                onClick={closeModal}
-              >
-                Fermer
-              </button>
+              <Newuser closeModal={closeModal} />  
             </Modal>
           </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead className=" text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-4 py-3">
-                  Employés
+                  Nom
                 </th>
                 <th scope="col" className="px-4 py-3">
-                  On/Off-line
+                  E-mail
+                </th>
+                <th scope="col" className="px-4 py-3">
+                   Role
+                </th>
+                <th scope="col" className="px-4 py-3">
+                  Status
+                </th>  
+                <th scope="col" className="px-4 py-3">
+                  Action
+                </th>
+                <th scope="col" className="px-4 py-3">
+                  
                 </th>
               </tr>
             </thead>
             <tbody>
               {data &&
-                data.slice(0, showAll ? data.length : 5).map((employee) => (
-                  <tr
-                    key={employee.id}
-                    className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <th
-                      scope="row"
-                      className="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {employee.Nom} {employee.Prenom}
-                    </th>
+                data.slice(0, showAll ? data.length : 5).map((employe) => (
+                  <tr key={employe._id} className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <td>
+                          {employe.Nom}  {employe.Prenom}
+                    </td>
+                    <td>
+                      {employe.Email}
+                    </td>
+                    <td>
+                      {employe.Role}
+                    </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       <div className="flex items-center">
-                        {employee?.EnLigne ? (
+                        {employe?.EnLigne ? (
                           <div className="inline-block w-4 h-4 mr-2 bg-green-700 rounded-full"></div>
                         ) : (
                           <div className="inline-block w-4 h-4 mr-2 bg-red-700 rounded-full"></div>
                         )}
                       </div>
                     </td>
+                    <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <button aria-labelledby='nonexistent'
+                      className="flex items-center justify-center p-1 text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400"
+                      onClick={() => handleDeleteEmploye(employe._id)}
+                    >
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                    </svg>
+                    Supprimer
+                    </button>
+                    </td>
+                    <td>
+                    <Link to='/Ensavoirplus' aria-labelledby='nonexistent'
+                    // onClick={open_Modal}
+                      className="flex items-center justify-center p-1 text-blue-500 hover:text-gray-500 dark:text-gray-400 dark:hover:text-red-400"
+                      
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+                    </svg>
+                    En savoir plus
+                    </Link>
+                    {/* <Modal
+                    className={"flex flex-col items-center gap-5 justify-center "}
+                    isOpen={isModalOpen}
+                    onRequestClose={close_Modal}
+                    >
+                    <PointageE />
+              
+                    <button
+                    className="bg-red-500 px-4 py-2 ml-4 text-xs font-semibold rounded-md"
+                    onClick={close_Modal}
+                    >
+                    Fermer
+                    </button>
+                    </Modal> */}
+                  </td>
                   </tr>
                 ))}
+          
             </tbody>
           </table>
         </div>

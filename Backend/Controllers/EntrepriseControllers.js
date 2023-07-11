@@ -52,11 +52,10 @@ export const login = async (req, res) => {
           console.log(passwordCompare);
            return res.status(400).json("password invalid")
         }
-
         user.EnLigne = true;
         await  user.save()
         console.log(user);
-        const accessToken = createAccessToken(user._id, user.Role)
+        const accessToken = createAccessToken(user._id, user.Role, Badge)
 
         res.status(200).json({accessToken})
     } catch (error) {
@@ -96,11 +95,11 @@ export const logout = async (req, res) => {
 export const createEmployee = async (req, res) => {
   const  entrepriseId  = req.params.id;
   console.log(entrepriseId);
-  const { Nom, Prenom, Telephone, Email, Role, Horaires, Password } = req.body;
+  const { Nom, Prenom, Telephone, Email,Categorie,Departement, Role, Password } = req.body;
   try {
     const salt = await bcrypt.genSalt(10)
       const hashedPassword = await bcrypt.hash(Password, salt)
-    const employe =  await Employee.create({Nom, Prenom, Telephone, Email, Role, Horaires, Password:hashedPassword, Entreprise: entrepriseId});
+    const employe =  await Employee.create({Nom, Prenom, Telephone, Email,Categorie, Departement, Role, Password:hashedPassword, Entreprise: entrepriseId});
         const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -112,7 +111,7 @@ export const createEmployee = async (req, res) => {
       from: 'mouhalileche.ma@gmail.com',
       to: employe.Email,
       subject: 'Pointage',
-      text: `Cher ${employe.Nom} ${employe.Prenom},\n\nBienvenue dans notre société! Votre compte a été créé avec succès.\n\nVoici vos identifiants de connexion :\nEmail: ${employe.Email}\nMots de passe: ${Password}\n\nVeuillez visiter notre site Web pour vous connecter.\n\nCordialement,\nVotre Entreprise de pointage`,
+      text: `Cher ${employe.Nom} ${employe.Prenom},\n\nBienvenue sur PunchClock! Votre compte a été créé avec succès.\n\nVoici vos identifiants de connexion :\nEmail: ${employe.Email}\nMots de passe: ${Password}\n\nVeuillez visiter notre site Web pour vous connecter.\n\nCordialement,\nVotre Entreprise de pointage\n\nCeci est un Test.`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -138,4 +137,34 @@ export const getEmployees = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+////////////////////////////Supprimer un 'Employé'
+export const deleteEmploye = async (req, res) => {
+  const entrepriseId = req.params.id; 
+  const employeId  = req.params.employeId
+  try { 
+    const deletedEmploye = await Employe.findByIdAndRemove({entrepriseId, _id:employeId});
+    
+    if (!deletedEmploye) {
+      return res.status(404).json({ message: 'Employe not found' });
+    }
+    
+    res.status(200).json({ message: 'Employee deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//En Savoir plus sur l'employé
+export const getEmployebyId = async (req, res) => {
+  const entrepriseId = req.params.id;
+  const employeId  = req.params.employeId
+  // console.log(entrepriseId);
+  try {
+    const employees = await Employee.find({ Entreprise: entrepriseId });
+    res.status(200).json(employees);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 

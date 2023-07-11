@@ -8,7 +8,11 @@ const {Schema} = mongoose;
         type: String,
         required: true
     },
-   
+    Entreprise: {
+        type: Schema.Types.ObjectId,
+        ref: 'Entreprise', // Référence au modèle de l'entreprise,
+        required: true
+    },  
 },
 {timestamps: true}
 );

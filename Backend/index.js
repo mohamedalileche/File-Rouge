@@ -1,6 +1,7 @@
 import  express  from "express";
 import mongoose from "mongoose";
 import { EntrepriseRouter } from "./Routes/EntrepriseRoute.js";
+import { EmployeRouter } from "./Routes/EmployeRoutes.js";
 import cors from "cors";
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
@@ -19,5 +20,6 @@ mongoose.connect('mongodb://127.0.0.1:27017')
 
 // app.use('/utilisateur',require('./Routes/utilisateurs'));
 app.use("/api/entreprises", EntrepriseRouter)
+app.use("/api/employes", EmployeRouter)
 
 
