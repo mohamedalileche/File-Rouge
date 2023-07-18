@@ -12,8 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));   
 app.use(cookieParser())
 app.use(cors({origin: "http://localhost:5173" , credentials: true}))
-// mongoose.connect('mongodb+srv://mohamedalilechefabrikademy:azerty@clusterfbrk.tykmlyj.mongodb.net/?retryWrites=true&w=majority')
-mongoose.connect('mongodb://127.0.0.1:27017')
+mongoose.connect(process.env.DB_URL_LOCAL)
 .then(() => { console.log('Connecté à MongoDB') })
   .then(() => { app.listen(5000); console.log('Connecté Avec succes') })
     .catch(err => console.log(err))
