@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import Logo from "../assets/Group.png"
 import Bg from "../assets/Q.jpg"
 
@@ -127,6 +127,10 @@ function Log() {
               </div>
             </div>
             <div className="flex items-center justify-center mt-4">
+              <Link to="/Signup" 
+              className="text-sm text-gray-600 underline hover:text-gray-900 cursor-[pointer]">
+                                Créer un compte?                               
+              </Link>
               <button
                 type="submit"
                 className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-[#00A9BA] border border-transparent rounded-md active:bg-gray-900 false"

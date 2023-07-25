@@ -168,7 +168,7 @@ const GPointage = () => {
                        {pointage.createdAt.slice(11,16)}    
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {pointage?.endTime && pointage.endTime.slice(11, 16)|| 'mazal lehal'}  
+                      {pointage?.endTime && pointage.endTime.slice(11, 16)|| 'Pas encore'}  
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {HeurDeTravail}  

@@ -36,6 +36,7 @@ export const getEmployees  = async (entrepriseId) => {
     const res = await api.get(`/entreprises/${entrepriseId}/getEmployees`)
     return res.data;
 }
+
 export const deleteEmploye = async ({entrepriseId, employeId}) => {
     // console.log(entrepriseId, employeId)
     const response = await api.delete(`/entreprises/${entrepriseId}/deleteEmploye/${employeId}`);
@@ -44,7 +45,11 @@ export const deleteEmploye = async ({entrepriseId, employeId}) => {
     }
     return response;
 }
-
+export const getEmployebyId  = async (employeId) => {
+    const res = await api.get(`/entreprises/getEmployebyid/${employeId}`)
+    console.log({employeId, res})
+    return res.data;
+}
 
 
 
@@ -52,7 +57,9 @@ export const deleteEmploye = async ({entrepriseId, employeId}) => {
 export const createPointage = async ({employeId}) => {
     // console.log({employeId});
     // return true
-    const res = await api.post(`/employes/${employeId}/createPointage`)
+    const res = await api.post(`/employes/${employeId}/createPointage`,{headers: {
+        Authorization: `Bearer ${localStorage.token}`
+    }})
     // console.log(employeId);
     return res.data;
 }
@@ -77,5 +84,10 @@ export const createProject = async ({userId, Titre}) => {
 }
 export const getProjects  = async ({userId, Badge}) => {
     const res = await api.get(`/employes/${userId}/getProjects?Badge=${Badge}`) // query params
+    return res.data;
+}
+export const createTache = async ({userId, Titre, Description,Assigne}) => {
+    // console.log({userId});
+    const res = await api.post(`/employes/${userId}/createTache`,{Titre,Description,Assigne})
     return res.data;
 }

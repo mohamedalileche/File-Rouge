@@ -11,6 +11,10 @@ const Gtask = () => {
   const [showAll, setShowAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userId } = useUserId();
+  const [onlineEmployeeCount, setOnlineEmployeeCount] = useState(0)
+  const [employeeCount, setEmployeeCount] = useState(0)
+  const [offlineEmployeeCount, setofflineEmployeeCount] = useState(0)
+  
   const tableRef = useRef(null); // Référence au tableau
 
   const openModal = () => {
@@ -22,10 +26,13 @@ const Gtask = () => {
   }
 
 
-  const { data, refetch } = useQuery({
-    queryKey: ["ff"],
+  const { data, refetch,isLoading } = useQuery({
+    queryKey: ["gfdgff"],
     queryFn: async () => {
       const data = await getEmployees(userId)
+      setOnlineEmployeeCount(data.filter((employe) => employe.EnLigne).length)
+      setofflineEmployeeCount(data?.filter((employe) => !employe.EnLigne).length)
+      setEmployeeCount(data.length)
       return data
     }
   });
@@ -49,14 +56,14 @@ const Gtask = () => {
     });
   };
 
-  const onlineEmployeeCount = data
-    ? data.filter((employe) => employe.EnLigne).length
-    : 0;
+  // const onlineEmployeeCount = data
+  //   ? data?.filter((employe) => employe.EnLigne).length
+  //   : 0;
 
-  const employeeCount = data ? data.length : 0;
-  const offlineEmployeeCount = data
-    ? data.filter((employe) => !employe.EnLigne).length
-    : 0;
+  // const employeeCount = data ? data.length : 0;
+  // const offlineEmployeeCount = data
+  //   ? data?.filter((employe) => !employe.EnLigne).length
+  //   : 0;
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 py-3 sm:py-5">
@@ -118,6 +125,9 @@ const Gtask = () => {
                   E-mail
                 </th>
                 <th scope="col" className="px-4 py-3">
+                   Poste
+                </th>
+                <th scope="col" className="px-4 py-3">
                    Role
                 </th>
                 <th scope="col" className="px-4 py-3">
@@ -132,14 +142,17 @@ const Gtask = () => {
               </tr>
             </thead>
             <tbody>
-              {data &&
-                data.slice(0, showAll ? data.length : 5).map((employe) => (
+              {!isLoading && 
+                data?.slice(0, showAll ? data.length : 5).map((employe) => (
                   <tr key={employe._id} className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                     <td>
                           {employe.Nom}  {employe.Prenom}
                     </td>
                     <td>
                       {employe.Email}
+                    </td>
+                    <td>
+                      {employe.Poste}
                     </td>
                     <td>
                       {employe.Role}
@@ -165,7 +178,7 @@ const Gtask = () => {
                     </button>
                     </td>
                     <td>
-                    <Link to='/Ensavoirplus' aria-labelledby='nonexistent'
+                    <Link to={`/Ensavoirplus/${employe._id}`} aria-labelledby='nonexistent'
                     // onClick={open_Modal}
                       className="flex items-center justify-center p-1 text-blue-500 hover:text-gray-500 dark:text-gray-400 dark:hover:text-red-400"
                       

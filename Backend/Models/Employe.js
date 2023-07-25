@@ -21,6 +21,9 @@ const EmployeSchema = new Schema({
         required: true,
         unique: true
     },
+    Poste: {
+        type: String,
+    },
     Role: {
         type: String,
         enum: ["Manager", "Salarié"],
@@ -39,10 +42,6 @@ const EmployeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Entreprise', // Référence au modèle de l'entreprise,
         required: true
-    },
-    Categories: {
-        type: String,
-
     },
 
 });

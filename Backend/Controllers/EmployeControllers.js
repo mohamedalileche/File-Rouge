@@ -2,6 +2,7 @@ import Pointage from "../Models/Pointage.js";
 import Employe from "../Models/Employe.js";
 import Project from "../Models/Project.js"
 import Entreprise from "../Models/Entreprise.js";
+import Task from "../Models/Task.js";
 
 
 
@@ -129,3 +130,59 @@ let projects;
     res.status(500).json({ message: error.message });
   }
 };
+
+
+//Taches
+
+export const createTache = async (req, res) => {
+  const { Titre, Description, Assigne } = req.body;
+  try {
+    // Vérifier si l'employé existe en fonction du nom et prénom donnés (Assigne)
+    const employe = await Employe.findOne({ nom: Assigne.Nom, prenom: Assigne.Prenom });
+
+    if (!employe) {
+      return res.status(404).json({ message: "Employé non trouvé" });
+    }
+
+    // Créer la tâche en utilisant l'identifiant de l'employé trouvé
+    const tache = await Task.create({ Titre, Description, Employe: employe._id, Manager: employe._id });
+    res.status(201).json(tache);
+    console.log(tache);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+export const getTachesByManager = async (req, res) => {
+  const employeId = req.params.id;
+  try {
+    const taches = await Task.find({Manager: employeId})
+    res.status(200).json(taches);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
+export const getTachesByEmploye = async (req, res) => {
+  const employeId = req.params.id;
+  try {
+    const taches = await Task.find({Employe: employeId})
+    res.status(200).json(taches);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+export const updateTacheStatus = async (req, res) => {
+  const {tacheId} = req.params
+  const {status} = req.body
+  try {
+    const tache = await Task.findByIdAndUpdate(tacheId, {Status: status})
+    res.status(200).json(tache);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}

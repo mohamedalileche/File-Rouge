@@ -1,44 +1,52 @@
-import { createProject } from "../Api/Apis";
+
 import React, { useState } from "react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import useUserId from "../Hooks/useUserId";
-import ReactDOM from "react-dom";
 import Modal from 'react-modal';
+import { createTache } from "../Api/Apis";
 Modal.setAppElement('#root');
 
 
 
-const AddProject = ({ closeModal }) => {
-
-    const [Titre, setTitre] = useState("");
-    const {userId} = useUserId()
-    const queryClient = useQueryClient();
-    
-    const createProjectMutation = useMutation(createProject, {
-        onSuccess: () => {
-            queryClient.invalidateQueries("");
-            
-        },
-    });
+const AddTask= () => {
+  const [Titre, setTitre] = useState("");
+  const [Description, setDescription] = useState("");
+  const [Assigne, setAssigne] = useState("");
 
 
-    const handleAddProjectsubmit = (e) => {
-        
-        e.preventDefault();
+  const {userId} = useUserId()
+  const queryClient = useQueryClient();
+  
+  const createTacheMutation = useMutation(createTache, {
+      onSuccess: () => {
+          queryClient.invalidateQueries("");
+          
+      },
+  });
 
-        createProjectMutation.mutate({userId,Titre});
-        setTitre("");
+
+  const handlecreateTachesubmit = (e) => {
+      
+      e.preventDefault();
+
+      createTacheMutation.mutate({userId,Titre, Assigne,Description});
+      setTitre("");
+      setAssigne("");
+      setDescription("");
+
+
+
+  };
  
+    // ...
+  
+    const handleButtonClick = () => {
+      // Actions spécifiques du bouton dans le composant NProject
+  
+      // Appel de la fonction de fermeture pour fermer le modal
+      closeModal();
     };
-   
-      // ...
-    
-      const handleButtonClick = () => {
-        // Actions spécifiques du bouton dans le composant NProject
-    
-        // Appel de la fonction de fermeture pour fermer le modal
-        closeModal();
-      };
+
       
 
     
@@ -48,7 +56,7 @@ const AddProject = ({ closeModal }) => {
           <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
             <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Ajoutez un projet
+                Ajoutez une Tache
               </h3>
               <button
                 type="button"
@@ -71,9 +79,40 @@ const AddProject = ({ closeModal }) => {
                 </svg>
               </button>
             </div>
-
-            <form onSubmit={handleAddProjectsubmit}>
+            <form onSubmit={handlecreateTachesubmit} className="flex flex-col items-center justify-center">
               <div className="grid gap-4 mb-2 sm:grid-cols-2">
+
+
+                <div>
+                  <label
+                    htmlFor="price"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Titre:
+                  </label>
+                  <input onChange={(e) => setTitre(e.target.value)}
+                    type="text"
+                    name="Titre"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Titre"
+                    value={Titre}
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="category"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Personne:
+                  </label>
+                  <input onChange={(e) => setAssigne(e.target.value)}
+                    type="text"
+                    name="Assigne"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Titre"
+                    value={Assigne}
+                  />
+                </div>
                 <div className="sm:col-span-2">
                   <label
                     htmlFor="description"
@@ -81,12 +120,13 @@ const AddProject = ({ closeModal }) => {
                   >
                     Description
                   </label>
-                  <input onChange={(e) => setTitre(e.target.value)}
+                  <input onChange={(e) => setDescription(e.target.value)}
                     type="text"
-                    name="Titre"
+                    name="Discription"
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value={Titre}
+                    value={Description}
                   />
+                  
                 </div>
               </div>
               <button
@@ -106,7 +146,7 @@ const AddProject = ({ closeModal }) => {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                Nouveau Projet
+                Nouvelle Tache
               </button>
             </form>
           </div>
@@ -115,4 +155,4 @@ const AddProject = ({ closeModal }) => {
   );
 };
 
-export default AddProject;
+export default AddTask;

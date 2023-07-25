@@ -95,11 +95,11 @@ export const logout = async (req, res) => {
 export const createEmployee = async (req, res) => {
   const  entrepriseId  = req.params.id;
   console.log(entrepriseId);
-  const { Nom, Prenom, Telephone, Email,Categorie,Departement, Role, Password } = req.body;
+  const { Nom, Prenom, Telephone, Email,Poste,Departement, Role, Password } = req.body;
   try {
     const salt = await bcrypt.genSalt(10)
       const hashedPassword = await bcrypt.hash(Password, salt)
-    const employe =  await Employee.create({Nom, Prenom, Telephone, Email,Categorie, Departement, Role, Password:hashedPassword, Entreprise: entrepriseId});
+    const employe =  await Employee.create({Nom, Prenom, Telephone, Email,Poste, Departement, Role, Password:hashedPassword, Entreprise: entrepriseId});
         const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -110,7 +110,7 @@ export const createEmployee = async (req, res) => {
     const mailOptions = {
       from: 'mouhalileche.ma@gmail.com',
       to: employe.Email,
-      subject: 'Pointage',
+      subject: 'PunchClock',
       text: `Cher ${employe.Nom} ${employe.Prenom},\n\nBienvenue sur PunchClock! Votre compte a été créé avec succès.\n\nVoici vos identifiants de connexion :\nEmail: ${employe.Email}\nMots de passe: ${Password}\n\nVeuillez visiter notre site Web pour vous connecter.\n\nCordialement,\nVotre Entreprise de pointage\n\nCeci est un Test.`,
     };
 
@@ -156,11 +156,10 @@ export const deleteEmploye = async (req, res) => {
 
 //En Savoir plus sur l'employé
 export const getEmployebyId = async (req, res) => {
-  const entrepriseId = req.params.id;
   const employeId  = req.params.employeId
-  // console.log(entrepriseId);
+  console.log({employeId});
   try {
-    const employees = await Employee.find({ Entreprise: entrepriseId });
+    const employees = await Employee.findById(  employeId );
     res.status(200).json(employees);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -32,7 +32,7 @@ import useUserId from "../../Hooks/useUserId";
             <form className="hidden sm:block" onSubmit={handlelogoutsubmit}>
                 <NavLink to="/HomeM" >Accueil</NavLink>
                 <NavLink to="/TacheM" >Gestion taches</NavLink>
-                <NavLink to="/" ></NavLink>
+                <button  type="submit" >Déconnexion</button>
             </form>
             <i  className= "  bi bi-three-dots"></i>
             <div className=" sm:hidden menu-toggle">

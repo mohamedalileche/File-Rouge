@@ -1,7 +1,8 @@
 import React from "react";
 
-import Pointage from "../Components/PointageE";
 import Navbar from '../Components/Navbar/Navbar';
+import Profile from '../Components/UserP';
+
 
 
 
@@ -9,8 +10,7 @@ function Home() {
   return (
     <div>
       <Navbar/>
-      <Pointage/>
-      
+      <Profile/>
  
     </div>
   );

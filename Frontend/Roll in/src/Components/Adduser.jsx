@@ -16,7 +16,7 @@ const Adduser = ({ closeModal }) => {
     const [Prenom, setPrenom] = useState("");
     const [Telephone, setTelephone] = useState("");
     const [Email, setEmail] = useState("");
-    const [Categorie, setCategorie] = useState("");
+    const [Poste, setPoste] = useState("");
     const [Role, setRole] = useState("Manager");
     const [Password, setPassword] = useState("");
     
@@ -34,11 +34,12 @@ const Adduser = ({ closeModal }) => {
         
         e.preventDefault();
 
-        createEmployeeMutation.mutate({Nom,Prenom,Telephone,Email,Categorie,Role,Password, Entreprise:userId});
+        createEmployeeMutation.mutate({Nom,Prenom,Telephone,Email,Poste,Role,Password, Entreprise:userId});
         setNom("");
         setPrenom("");
         setTelephone("");
         setEmail("");
+        setPoste("");
         setRole("");
         setPassword("")
     };
@@ -140,49 +141,17 @@ const Adduser = ({ closeModal }) => {
                                 htmlFor="Categorie"
                                 className="block text-sm font-medium text-gray-700 undefined"
                             >
-                                Categorie:
+                                Poste:
                             </label>
                             <div className="flex flex-col items-start">
-                                <select
-                              id="categorie"
-                              onChange={(e) => setCategorie(e.target.value)}
-                              className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                >
-                                    <option disabled selected>Vous pouvez ajouter un métier (Optionnel)</option>
-                                    <option value="Ingénieur logiciel">Ingénieur logiciel</option>
-                                    <option value="Chef de projet">Chef de projet</option>
-                                    <option value="Architecte">Architecte</option>
-                                    <option value="Enseignant">Enseignant</option>
-                                    <option value="Designer graphique">Designer graphique</option>
-                                    <option value="Comptable">Comptable</option>
-                                    <option value="Développeur web">Développeur web</option>
-                                    <option value="Conseiller financier">Conseiller financier</option>
-                                    <option value="Archiviste">Archiviste</option>
-                                    <option value="Électricien">Électricien</option>
-                                    <option value="Traducteur">Traducteur</option>
-                                    <option value="Agent immobilier">Agent immobilier</option>
-                                    <option value="Designer d'intérieur">Designer d'intérieur</option>
-                                    <option value="Ingénieur civil">Ingénieur civil</option>
-                                    <option value="Photographe">Photographe</option>
-                                    <option value="Consultant en marketing">Consultant en marketing</option>
-                                    <option value="Graphiste">Graphiste</option>
-                                    <option value="Agent de sécurité">Agent de sécurité</option>
-                                    <option value="Analyste financier">Analyste financier</option>
-                                    <option value="Designer industriel">Designer industriel</option>
-                                    <option value="Ingénieur en génie civil">Ingénieur en génie civil</option>
-                                    <option value="Analyste de données">Analyste de données</option>
-                                    <option value="Conseiller en communication">Conseiller en communication</option>
-                                    <option value="Responsable qualité">Responsable qualité</option>
-                                    <option value="Designer de mode">Designer de mode</option>
-                                    <option value="Conseiller en investissement">Conseiller en investissement</option>
-                                    <option value="Agent de bord">Agent de bord</option>
-                                    <option value="Responsable des ventes">Responsable des ventes</option>
-                                    <option value="Conseiller en ressources humaines">Conseiller en ressources humaines</option>
-                                    <option value="Scénariste">Scénariste</option>
-                                    <option value="Plombier">Plombier</option>
-                                    <option value="Contrôleur financier">Contrôleur financier</option>
-                              </select>
-                             </div>
+                                <input onChange={(e) => setPoste(e.target.value)}
+                                    type="text"
+                                    name="Poste"
+                                    value={Poste}
+                                    className="block w-full mt-1 h-[33px] border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                />
+                            </div>
+              
                         </div>
                         <div className="mt-4">
                             <label

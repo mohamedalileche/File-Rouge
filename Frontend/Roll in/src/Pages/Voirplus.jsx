@@ -1,13 +1,13 @@
 import React from "react";
-import Navbar from '../Components/Navbar-s/Navbar';
 
+import Task from "../Components/Task";
 
 
 function Tache() {
   return (
     <div>
-      <Navbar/>
 
+      <Task/>
     </div>
   );
 }

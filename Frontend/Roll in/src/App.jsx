@@ -9,6 +9,7 @@ import Tache from "./Pages/Tache";
 import TacheM from "./Pages/TacheM";
 import Ensavoir from "./Pages/Ensavoir";
 import TacheS from "./Pages/TacheS";
+import Voirplus from "./Pages/Voirplus"
 import {  QueryClient,  QueryClientProvider,} from '@tanstack/react-query'
 
 
@@ -50,8 +51,12 @@ const router = createBrowserRouter([
     element: <TacheS/>
   },
   {
-    path: "/Ensavoirplus",
+    path: "/Ensavoirplus/:id",
     element: <Ensavoir/>
+  },
+  {
+    path: "/Voirplus",
+    element: <Voirplus/>
   },
 
 ]);

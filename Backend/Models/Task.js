@@ -17,14 +17,21 @@ const {Schema} = mongoose;
         ref: 'Employe',
         required: true
       },
-    Assigne: {
+
+      Manager: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employe',
         required: true
-    },
+      },
     Project:{
         type:Schema.Types.ObjectId,
         ref:"Project"
+    },
+
+    Statut: {
+        type: String,
+        enum: ["En cours", "Finis"],
+        default: "En cours"
     }
 },
 {timestamps: true}

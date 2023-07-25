@@ -1,6 +1,6 @@
 import  express  from "express"
 // import { createPointage, getPointage, updatePointage, deletePointage, getProjects, getTask, getAllConges, getCongeById, createConge, updateConge, deleteConge } from "../Controllers/EmployeControllers.js";
-import { createPointage, getPointagesByEmployeId, getProjects, teminerPointage } from "../Controllers/EmployeControllers.js";
+import { createPointage, createTache, getPointagesByEmployeId, getProjects, getTachesByEmploye, getTachesByManager, teminerPointage, updateTacheStatus } from "../Controllers/EmployeControllers.js";
 import { createProject } from "../Controllers/EmployeControllers.js";
 
 
@@ -15,20 +15,9 @@ EmployeRouter.post('/:id/terminerPointage', teminerPointage);
 EmployeRouter.get('/:id/getPointage', getPointagesByEmployeId);
 EmployeRouter.post('/:id/createProject', createProject)
 EmployeRouter.get('/:id/getProjects', getProjects)
+EmployeRouter.post('/:id/createTache', createTache)
+EmployeRouter.get('/:id/getTachesByManager', getTachesByManager)
+EmployeRouter.get('/:id/getTachesByEmploye', getTachesByEmploye)
+EmployeRouter.put('/:id/updateTacheStatus', updateTacheStatus)
 
-// app.put('/pointages/:id', updatePointage);
-// app.delete('/pointages/:id',deletePointage);  
 
-
-///////////////Project/////////////////////
-// app.get('/projects', getProjects);
-
-///////////////Task////////////////////////
-// app.get('/projects/:id/tasks', getTask);
-
-///////////////Conge////////////////////////
-// app.get('/Conges', getAllConges);
-// app.get('/Conges/:id', getCongeById);
-// app.post('Conges', createConge);
-// app.put('/Conges/:id', updateConge);
-// app.delete('/Conges/:id', deleteConge);

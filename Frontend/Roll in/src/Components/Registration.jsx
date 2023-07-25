@@ -123,7 +123,7 @@ const handleRegistrationsubmit = (e) => {
                                 htmlFor="password"
                                 className="block text-sm font-medium text-gray-700 undefined"
                             >
-                                Confirm Password:
+                                Mots de Passe:
                             </label>
                             <div className="flex flex-col items-start">
                                 <input onChange={(e) => setPassword(e.target.value)}

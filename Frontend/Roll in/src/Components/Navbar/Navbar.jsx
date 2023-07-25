@@ -37,7 +37,6 @@ import useUserId from "../../Hooks/useUserId";
             <form className="hidden md:block" onSubmit={handlelogoutsubmit}>
                 <NavLink to="/Home" >Accueil</NavLink>
                 <NavLink to="/Tache" > Gestion taches</NavLink>
-                <button type="button"> A propos</button>
                 <button  type="submit" >Déconnexion</button>
             </form>
             <i  className= " bi bi-three-dots" ></i>
